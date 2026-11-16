@@ -42,3 +42,21 @@ if (!target.startsWith(uploadDir)) throw new IllegalArgumentException("잘못된
 지정된 경로로 들어가는 Path인지 확인할때 startsWith()를 사용해서, Path Traversal을 방지하는데 도움이 된다.
 관련 소스파일 및 메서드명을 함께 명시
 각 문항은 2~4문장 정도로 간단히 설명
+
+
+다음 3가지 유형을 각각 1곳 이상 수정합니다.
+
+Text : 제목
+Style : 색상
+UI/Data : 파일 크기 표시
+
+STEP 4. New Feature Implementation
+
+이미지 미리보기(Image Preview) 기능을 구현합니다.
+
+게시글 상세 화면에서 첨부 이미지(jpg, jpeg, png, gif) 표시
+이미지가 아닌 파일(PDF 등)은 기존 다운로드 기능 유지
+존재하지 않는 파일 또는 잘못된 파일 ID에 대한 오류 처리
+구현 참고: AttachmentController, Service, Resource, Content-Type, Thymeleaf <img> 활용
+
+※ Sample Project의 TODO를 참고하여 직접 구현합니다.

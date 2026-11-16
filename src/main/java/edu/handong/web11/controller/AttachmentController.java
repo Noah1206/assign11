@@ -30,5 +30,21 @@ public class AttachmentController {
             .header(HttpHeaders.CONTENT_DISPOSITION, disposition) // 서버에서 클라이언트로 전송하는 데이터의 헤더에 넣을데이터로, 파일을 첨부파일 형태로 다운로드할 수 있게 한다.
             .body(resource); // 응답 본문에 전송할 파일이다.
     }
-    // STUDENT TODO: GET /attachments/{id}/view (image preview).
+
+    @GetMapping("/{id}/view")
+    public ResponseEntity<Resource> view(@PathVariable Long id) {
+        Attachment file = attachments.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "첨부파일이 없습니다"));
+
+        if (file.getContentType() == null || !file.getContentType().startsWith("image/"))
+            throw new ResponseStatusException(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "이미지 파일 미리보기");
+
+        Resource resource = storage.load(file);
+        String disposition = ContentDisposition.inline()
+            .filename(file.getOriginalFilename(), StandardCharsets.UTF_8)
+            .build().toString();
+        return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(file.getContentType()))
+            .header(HttpHeaders.CONTENT_DISPOSITION, disposition)
+            .body(resource);
+    }
 }
